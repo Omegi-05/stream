@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S t r e a m i n g</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <script type="module" src="main.js"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        min-height: 100vh;
+        color: #fff;
+      }
+
+      .page {
+        padding: 60px 24px;
+        text-align: center;
+      }
+      .page h1 {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+      }
+
+      /*le loaderr ,merci mon portfoliooo */
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+        background: rgba(40, 40, 40, 0.45); /* fond transparent */
+        backdrop-filter: blur(12px); /* flou */
+        -webkit-backdrop-filter: blur(12px);
+        font-family: "Courier New", monospace;
+        transition:
+          opacity 0.6s ease,
+          visibility 0.6s ease;
+      }
+      #loader.hide {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* les coins façon caméraa */
+      .corner {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        border: 0 solid #fff;
+      }
+      .un {
+        top: 24px;
+        left: 24px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+      }
+      .deux {
+        top: 24px;
+        right: 24px;
+        border-top-width: 2px;
+        border-right-width: 2px;
+      }
+      .trois {
+        bottom: 24px;
+        left: 24px;
+        border-bottom-width: 2px;
+        border-left-width: 2px;
+      }
+      .quatre {
+        bottom: 24px;
+        right: 24px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+      }
+      /* le rec */
+      .rec {
+        position: absolute;
+        top: 28px;
+        left: 70px;
+        color: #ff2b2b;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .rec::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ff2b2b;
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      .text {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+      }
+
+      /* la pile */
+      .battery {
+        position: relative;
+        width: 190px;
+        height: 44px;
+        background: #fff;
+        padding: 8px 10px;
+        display: flex;
+        gap: 8px;
+      }
+      .battery::after {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 12px;
+        width: 10px;
+        height: 20px;
+        background: #fff;
+        border-radius: 0 5px 5px 0;
+      }
+      .inner {
+        flex: 1;
+        display: flex;
+        gap: 8px;
+        background: #3a3a3a;
+        padding: 5px;
+      }
+      .cell {
+        flex: 1;
+        background: transparent;
+        transition: background 0.25s;
+      }
+      .cell.on {
+        background: #fff;
+      }
+    </style>
+
+    <!-- LOOADDDERRRRSSSS -->
+    <div id="loader">
+      <span class="corner un"></span><span class="corner deux"></span>
+      <span class="corner trois"></span><span class="corner quatre"></span>
+      <div class="rec">REC</div>
+
+      <div class="text">Loading<span id="dots">...</span></div>
+      <div class="battery">
+        <div class="inner">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const cells = document.querySelectorAll(".cell");
+      const loader = document.getElementById("loader");
+      const dots = document.getElementById("dots");
+      const DELAI = 110;
+
+      // pile //
+      let d = 0;
+      setInterval(() => {
+        d = (d + 1) % 4;
+        dots.textContent = ".".repeat(d);
+      }, 400);
+
+      //  1 par 1 de pille //
+      let i = 0;
+      const timer = setInterval(() => {
+        cells[i].classList.add("on");
+        i++;
+        if (i === cells.length) {
+          clearInterval(timer);
+          // Pile pleine //
+          setTimeout(() => {
+            loader.classList.add("hide");
+            setTimeout(() => loader.remove(), 700);
+          }, 500);
+        }
+      }, DELAI);
+    </script>
+  </body>
+</html>
